@@ -1,0 +1,15 @@
+{
+    "name": "mystlabs/mistyrouting",
+    "type": "library",
+    "description": "MistyRouting - Flexible and extensible routing system",
+    "minimum-stability": "dev",
+    "require": {
+        "mystlabs/mistyutils" : "*"
+    },
+    "require-dev": {
+        "mystlabs/mistytesting" : "*"
+    },
+    "autoload": {
+       "psr-0": {"MistyRouting": "src/"}
+    }
+}
