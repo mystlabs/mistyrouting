@@ -3,6 +3,7 @@
 namespace MistyRouting;
 
 use MistyRouting\Exception\DuplicateRouteException;
+use MistyRouting\Exception\InvalidParamException;
 use MistyRouting\Exception\InvalidPathException;
 use MistyRouting\Exception\MalformedPathException;
 use MistyRouting\Exception\MissingParamException;
@@ -32,8 +33,8 @@ class Router
 	 *
 	 * @param string $path The path to decode
 	 * @return ControllerActionParams The Controller::action to execute
-	 * @throws MistyRouting\Exception\InvalidPathException If there is no route for this path
-	 * @throws MistyRouting\Exception\MalformedPathException If the path is malformed
+	 * @throws InvalidPathException If there is no route for this path
+	 * @throws MalformedPathException If the path is malformed
 	 */
 	public function decode($path)
 	{
@@ -47,6 +48,8 @@ class Router
 
 		$controllerActionPairParams = null;
 		foreach ($this->routes as $route) {
+
+            /** @var $route IRoute  */
 			$controllerActionParams = $route->decode($path);
 			if( $controllerActionParams !== null )
 			{
@@ -66,12 +69,12 @@ class Router
 	 * @param string $routeName The name of the route to use
 	 * @param array $params The params to use in the path
 	 * @return string The path
-	 * @throws MistyRouting\Exception\InvalidParamException If there is something wrong with the params
-	 * @throws MistyRouting\Exception\MalformedPathException If the generated path is malformed
-	 * @throws MistyRouting\Exception\MissingParamException If one or more required params are missing
-	 * @throws MistyRouting\Exception\UnknownRouteException If there's no route for $routeName
+	 * @throws InvalidParamException If there is something wrong with the params
+	 * @throws MalformedPathException If the generated path is malformed
+	 * @throws MissingParamException If one or more required params are missing
+	 * @throws UnknownRouteException If there's no route for $routeName
 	 */
-	public function encode($routeName, array $params)
+	public function encode($routeName, array $params = array())
 	{
 		if (!isset($this->routes[$routeName])) {
 			throw new UnknownRouteException(sprintf(
@@ -80,6 +83,7 @@ class Router
 			));
 		}
 
+        /** @var $route IRoute */
 		$route = $this->routes[$routeName];
 		$path = $route->encode($params);
 
@@ -98,7 +102,7 @@ class Router
 	 * Add a new Route
 	 *
 	 * @param IRoute $route The route to add to this router
-	 * @throws MistyRouting\Exception\DuplicateRouteException If the route name is already in use
+	 * @throws DuplicateRouteException If the route name is already in use
 	 */
 	private function addRoute(IRoute $route)
 	{

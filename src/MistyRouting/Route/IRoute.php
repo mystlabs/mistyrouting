@@ -2,14 +2,18 @@
 
 namespace MistyRouting\Route;
 
+use MistyRouting\Exception\MissingParamException;
+use MistyRouting\Exception\InvalidParamException;
+use MistyRouting\ControllerActionParams;
+
 interface IRoute
 {
     /**
      * Encode the params into the path described by this rule
      *
      * @param array $params The params to be used to create the path
-     * @throws MistyRouting\Exception\MissingParamException If a required param is missing
-     * @throws MistyRouting\Exception\InvalidParamException If there is something wrong with the params
+     * @throws MissingParamException If a required param is missing
+     * @throws InvalidParamException If there is something wrong with the params
      */
 	function encode(array $params);
 

@@ -12,7 +12,7 @@ class RuleParser
      *
      * @param string $rule The rule to be parsed
      * @return array Associative array, with components and varargs settings
-     * @throws MistyRouting\Exception\MalformedRuleException If the rule is not valid
+     * @throws \MistyRouting\Exception\MalformedRuleException If the rule is not valid
      */
     public static function parseRule($rule)
     {
@@ -44,7 +44,7 @@ class RuleParser
      *
      * @param string $token A token from the rule
      * @return array An array describing the token (name, isVar, choices, default)
-     * @throws MistyRouting\Exception\MalformedRuleException If the token is not valid
+     * @throws \MistyRouting\Exception\MalformedRuleException If the token is not valid
      */
     public static function parseToken($token)
     {
