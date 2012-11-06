@@ -10,12 +10,17 @@ class PathDecorator
     private $defaultOptions;
 
     /**
-     * @param string $hostname The target hostname, required
+     * Create a new PathDecotorator
+     *
      * @param array $defaultOptions The default options for this decorator
+     * @throws \InvalidArgumentException
      */
-    public function __construct($hostname, array $defaultOptions = array())
+    public function __construct(array $defaultOptions = array())
     {
-        $defaultOptions['hostname'] = $hostname;
+        if (!isset($defaultOptions['hostname'])) {
+            throw new \InvalidArgumentException('The PathDecorator requires a hostname');
+        }
+
         $this->defaultOptions = array_merge(
             array(
                 'absolute' => false,
