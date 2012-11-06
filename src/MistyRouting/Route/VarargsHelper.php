@@ -12,7 +12,7 @@ class VarargsHelper
 	 *
 	 * @param array $params The params to be serialized
 	 * @return string The serialized varargs
-	 * @throws MistyRouting\Exception\InvalidParamException If there's something wrong with a param
+	 * @throws \MistyRouting\Exception\InvalidParamException If there's something wrong with a param
 	 */
 	public static function serialize(array $params)
 	{

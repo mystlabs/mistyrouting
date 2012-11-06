@@ -76,6 +76,15 @@ class RouteTest extends MistyTesting\UnitTest
         )));
     }
 
+    public function testEncoding_urlencoded()
+    {
+        $route = new Route('name', '/:var/:value', 'Controller', 'action');
+        $this->assertEquals('/this+value/%2Fmust-be-encoded', $route->encode(array(
+            'var' => 'this value',
+            'value' => '/must-be-encoded',
+        )));
+    }
+
     public function testDecode_fixedTokens()
     {
         $route = new Route('name', '/module/action', 'Controller', 'action');
@@ -124,5 +133,17 @@ class RouteTest extends MistyTesting\UnitTest
     {
         $route = new Route('name', '/:module/:uid/:page[profile|pictures]', ':module\Controller\:pageController', ':page');
         $this->assertNull($route->decode('/test/user/timeline'));
+    }
+
+    public function testDecode_urldecoded()
+    {
+        $route = new Route('name', '/:var/:value', 'Controller', 'action');
+        $cap = $route->decode('/this+value/%2Fmust-be-decoded');
+
+        $this->assertNotNull($cap);
+        $this->assertTrue($cap instanceof ControllerActionParams);
+        $this->assertEquals(2, count($cap->params));
+        $this->assertEquals('this value', $cap->params['var']);
+        $this->assertEquals('/must-be-decoded', $cap->params['value']);
     }
 }

@@ -57,9 +57,9 @@ class Route implements IRoute
 					));
 				}
 
-				$pieces[] = $params[$name];
+				$pieces[] = urlencode($params[$name]);
 			} else {
-				$pieces[] = $name;
+				$pieces[] = urlencode($name);
 			}
 			unset($params[$name]);
 		}
@@ -105,7 +105,7 @@ class Route implements IRoute
 
 				$paramName = $component['name'];
 				$paramValue = $tokens[$i];
-				$params[$paramName] = $paramValue;
+				$params[$paramName] = urldecode($paramValue);
 
 				$controller = str_replace( ":$paramName", ucfirst( $paramValue ), $controller );
 				$action = str_replace( ":$paramName", $paramValue, $action );
