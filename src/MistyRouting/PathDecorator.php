@@ -20,8 +20,8 @@ class PathDecorator
             array(
                 'absolute' => false,
                 'protocol' => 'http',
-                'secure' => null,
-                'port' => null,
+                'secure' => false,
+                'port' => 80,
             ),
             $defaultOptions
         );
@@ -32,13 +32,14 @@ class PathDecorator
      *
      * @param string $path The path to decorate
      * @param array $options The options for this
+     * @return string
      */
     public function decorate($path, array $options = array())
     {
         $url = '';
 
         // Create an absolute url if requested or
-        if ($this->option('absolute', $options)) {
+        if ($this->useAbsolutePath($options)) {
             $url .= $this->generateBaseUrl($options);
         }
 
@@ -97,8 +98,31 @@ class PathDecorator
         $baseUrl .= '//';
 
         $baseUrl .= $this->option('hostname', $options);
-        $baseUrl .= $this->option('port', $options) ? ':' . $this->option('port', $options) : '';
+
+        // Only adding the port if it's different from 80
+        if ($this->usePort($options)) {
+            $baseUrl .= ':' . $this->option('port', $options);
+        }
 
         return $baseUrl;
+    }
+
+    private function usePort($options)
+    {
+        return $this->option('port', $options) && $this->option('port', $options) != 80;
+    }
+
+
+    private function useAbsolutePath($options)
+    {
+        if ($this->option('absolute', $options) ||
+            $this->usePort($options) ||
+            (isset($options['hostname']) && $options['hostname'] !== $this->defaultOptions['hostname']) ||
+            $this->option('secure', $options)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

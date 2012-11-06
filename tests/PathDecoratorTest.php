@@ -57,4 +57,14 @@ class PathDecoratorTest extends MistyTesting\UnitTest
         $this->assertEquals('//www.test.it:8080/news', $decorator->decorate('/news'));
         $this->assertEquals('//www.test.it:8090/news', $decorator->decorate('/news', array('port' => '8090')));
     }
+
+    public function testAutomaticAbsolute()
+    {
+        $decorator = new PathDecorator('www.test.it');
+
+        $this->assertEquals('/news', $decorator->decorate('/news'));
+        $this->assertEquals('//www.test.org/news', $decorator->decorate('/news', array('hostname' => 'www.test.org')));
+        $this->assertEquals('//www.test.it:8080/news', $decorator->decorate('/news', array('port' => 8080)));
+        $this->assertEquals('https://www.test.it/news', $decorator->decorate('/news', array('secure' => true)));
+    }
 }
