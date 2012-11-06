@@ -92,15 +92,11 @@ class PathDecorator
      */
     private function generateBaseUrl(array $options)
     {
-        $baseUrl = '';
-        if ($this->option('protocol', $options) !== 'http' || $this->option('secure', $options)) {
-            $baseUrl .= $this->option('protocol', $options);
-            if ($this->option('secure', $options)) {
-                $baseUrl .= 's';
-            }
-            $baseUrl .= ':';
+        $baseUrl = $this->option('protocol', $options);
+        if ($this->option('secure', $options)) {
+            $baseUrl .= 's';
         }
-        $baseUrl .= '//';
+        $baseUrl .= '://';
 
         $baseUrl .= $this->option('hostname', $options);
 

@@ -36,7 +36,7 @@ class PathDecoratorTest extends MistyTesting\UnitTest
 
         $this->assertEquals('/news', $decorator->decorate('/news', array()));
         $this->assertEquals('/news', $decorator->decorate('/news', array('absolute' => false)));
-        $this->assertEquals('//www.test.it/news', $decorator->decorate('/news', array('absolute' => true)));
+        $this->assertEquals('http://www.test.it/news', $decorator->decorate('/news', array('absolute' => true)));
         $this->assertEquals('https://www.test.it/news', $decorator->decorate('/news', array(
             'absolute' => true,
             'secure' => true
@@ -50,8 +50,8 @@ class PathDecoratorTest extends MistyTesting\UnitTest
             'absolute' => true
         ));
 
-        $this->assertEquals('//www.test.it/news', $decorator->decorate('/news', array()));
-        $this->assertEquals('//test.org/news', $decorator->decorate('/news', array('hostname' => 'test.org')));
+        $this->assertEquals('http://www.test.it/news', $decorator->decorate('/news', array()));
+        $this->assertEquals('http://test.org/news', $decorator->decorate('/news', array('hostname' => 'test.org')));
     }
 
     public function testPort()
@@ -62,8 +62,8 @@ class PathDecoratorTest extends MistyTesting\UnitTest
             'port' => 8080
         ));
 
-        $this->assertEquals('//www.test.it:8080/news', $decorator->decorate('/news'));
-        $this->assertEquals('//www.test.it:8090/news', $decorator->decorate('/news', array('port' => '8090')));
+        $this->assertEquals('http://www.test.it:8080/news', $decorator->decorate('/news'));
+        $this->assertEquals('http://www.test.it:8090/news', $decorator->decorate('/news', array('port' => '8090')));
     }
 
     public function testAutomaticAbsolute()
@@ -73,8 +73,8 @@ class PathDecoratorTest extends MistyTesting\UnitTest
         ));
 
         $this->assertEquals('/news', $decorator->decorate('/news'));
-        $this->assertEquals('//www.test.org/news', $decorator->decorate('/news', array('hostname' => 'www.test.org')));
-        $this->assertEquals('//www.test.it:8080/news', $decorator->decorate('/news', array('port' => 8080)));
+        $this->assertEquals('http://www.test.org/news', $decorator->decorate('/news', array('hostname' => 'www.test.org')));
+        $this->assertEquals('http://www.test.it:8080/news', $decorator->decorate('/news', array('port' => 8080)));
         $this->assertEquals('https://www.test.it/news', $decorator->decorate('/news', array('secure' => true)));
     }
 }
